@@ -1,0 +1,217 @@
+# ============================================
+# 2D Game Engine - .gitignore
+# ============================================
+
+# ============================================
+# Build directories
+# ============================================
+build/
+out/
+bin/
+lib/
+*.exe
+*.dll
+*.so
+*.dylib
+*.a
+
+# ============================================
+# CMake
+# ============================================
+CMakeCache.txt
+CMakeFiles/
+CMakeScripts/
+cmake_install.cmake
+install_manifest.txt
+compile_commands.json
+CTestTestfile.cmake
+_deps/
+*.cmake
+
+# ============================================
+# vcpkg - Ignore entire directory
+# ============================================
+vcpkg/
+
+# Keep only the manifest file (vcpkg.json at root)
+!vcpkg.json
+
+# ============================================
+# Visual Studio / MSBuild
+# ============================================
+.vs/
+*.sln
+*.vcxproj
+*.vcxproj.filters
+*.vcxproj.user
+*.suo
+*.user
+*.userosscache
+*.sln.docstates
+*.opensdf
+*.sdf
+*.VC.db
+*.VC.opendb
+ipch/
+*.aps
+*.ncb
+*.opendb
+*.cachefile
+*.VC.VC.opendb
+x64/
+x86/
+Debug/
+Release/
+*.log
+*.tlog
+*.lastbuildstate
+*.idb
+*.ilk
+*.pdb
+*.pgc
+*.pgd
+*.rsp
+*.sbr
+*.tlb
+*.tli
+*.tlh
+*.tmp
+*.tmp_proj
+*.vspscc
+*.vssscc
+.builds
+*.pidb
+*.svclog
+*.scc
+
+# ============================================
+# Compiler outputs
+# ============================================
+*.obj
+*.o
+*.lo
+*.la
+*.al
+*.libs
+*.exe
+*.out
+*.app
+*.i*86
+*.x86_64
+*.hex
+
+# ============================================
+# IDE - Visual Studio Code
+# ============================================
+.vscode/
+*.code-workspace
+.history/
+
+# Keep VSCode settings if you want (optional)
+# !.vscode/settings.json
+# !.vscode/tasks.json
+# !.vscode/launch.json
+
+# ============================================
+# IDE - CLion / JetBrains
+# ============================================
+.idea/
+cmake-build-*/
+*.iml
+*.iws
+out/
+
+# ============================================
+# OS Files
+# ============================================
+# Windows
+Thumbs.db
+ehthumbs.db
+Desktop.ini
+$RECYCLE.BIN/
+*.lnk
+
+# macOS
+.DS_Store
+.AppleDouble
+.LSOverride
+Icon
+._*
+
+# Linux
+*~
+.directory
+.Trash-*
+
+# ============================================
+# Temporary files
+# ============================================
+*.swp
+*.swo
+*.swn
+*.bak
+*.tmp
+*.temp
+*.cache
+
+# ============================================
+# Assets (optional - uncomment if you have large assets)
+# ============================================
+# Uncomment these if you don't want to track large binary assets
+# *.png
+# *.jpg
+# *.jpeg
+# *.bmp
+# *.wav
+# *.mp3
+# *.ogg
+
+# But keep specific small test assets
+!hello-sdl3.bmp
+
+# ============================================
+# Documentation builds
+# ============================================
+docs/_build/
+docs/html/
+docs/latex/
+
+# ============================================
+# Profiling / Testing
+# ============================================
+*.gcov
+*.gcda
+*.gcno
+coverage/
+*.profdata
+
+# ============================================
+# Package managers
+# ============================================
+# Conan
+conan.lock
+conanbuildinfo.*
+conaninfo.txt
+
+# ============================================
+# Logs and databases
+# ============================================
+*.log
+*.sql
+*.sqlite
+
+# ============================================
+# Custom - Project specific
+# ============================================
+# Add any project-specific files to ignore here
+screenshots/
+recordings/
+*.local
+
+# ============================================
+# Keep these files
+# ============================================
+!.gitignore
+!CMakeLists.txt
+!README.md
+!LICENSE

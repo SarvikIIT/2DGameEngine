@@ -1,0 +1,34 @@
+# Minimum CMake version required
+cmake_minimum_required(VERSION 3.20)
+set(CMAKE_TOOLCHAIN_FILE "${CMAKE_CURRENT_SOURCE_DIR}/vcpkg/scripts/buildsystems/vcpkg.cmake")
+# Project name and version
+project(2DGameEngine VERSION 1.0)
+
+# Set C++ standard
+set(CMAKE_CXX_STANDARD 17)
+set(CMAKE_CXX_STANDARD_REQUIRED True)
+
+# Find packages
+find_package(SDL3 CONFIG REQUIRED)
+
+# Engine source files
+set(ENGINE_SOURCES
+    engine/core/Window.cpp
+    engine/core/Application.cpp
+)
+
+# Create executable
+add_executable(GameEngine
+    main.cpp
+    ${ENGINE_SOURCES}
+)
+
+# Include directories (so #include "engine/core/Window.h" works)
+target_include_directories(GameEngine PRIVATE
+    ${CMAKE_CURRENT_SOURCE_DIR}
+)
+
+# Link libraries
+target_link_libraries(GameEngine PRIVATE
+    SDL3::SDL3
+)
