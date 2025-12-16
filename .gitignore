@@ -32,6 +32,7 @@ _deps/
 # vcpkg - Ignore entire directory
 # ============================================
 vcpkg/
+vcpkg_installed/
 
 # Keep only the manifest file (vcpkg.json at root)
 !vcpkg.json

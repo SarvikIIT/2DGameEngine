@@ -10,11 +10,14 @@ set(CMAKE_CXX_STANDARD_REQUIRED True)
 
 # Find packages
 find_package(SDL3 CONFIG REQUIRED)
+find_package(glad CONFIG REQUIRED)
+find_package(OpenGL REQUIRED)
 
 # Engine source files
 set(ENGINE_SOURCES
     engine/core/Window.cpp
     engine/core/Application.cpp
+    engine/renderer/Renderer.cpp
 )
 
 # Create executable
@@ -31,4 +34,6 @@ target_include_directories(GameEngine PRIVATE
 # Link libraries
 target_link_libraries(GameEngine PRIVATE
     SDL3::SDL3
+    glad::glad
+    OpenGL::GL
 )

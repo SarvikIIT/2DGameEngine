@@ -6,6 +6,8 @@ namespace Core {
 
 Application::Application(const std::string& title, int width, int height)
     : m_window(std::make_unique<Window>(title, width, height))
+    , m_renderer(std::make_unique<Renderer::Renderer>())
+    , m_inputManager(std::make_unique<InputManager>())
     , m_running(false)
 {
 }
@@ -20,9 +22,9 @@ bool Application::init() {
         SDL_Log("Failed to initialize!\n");
         return false;
     }
-    // Load media
-    if (!m_window->loadMedia("hello-sdl3.bmp")) {
-        SDL_Log("Failed to load media!\n");
+    //Initialize the renderer with the SDL_Window from m_window
+    if(m_renderer ->init(m_window->getSDLWindow()) == false){ // Initialize renderer using the Renderer class
+        SDL_Log("Failed to initialize Renderer!\n");
         return false;
     }
     return true;
@@ -34,10 +36,12 @@ void Application::run() {
     SDL_zero(e); // Variable initialization to avoid undefined behavior
 
     while (m_running) {
+        m_inputManager->beginNewFrame(); // Prepare input manager for new frame
         // Process events
         processEvents();
         // Render
-        m_window->render();
+        m_renderer->beginFrame();
+        m_renderer->endFrame(m_window->getSDLWindow());
     }
 }
 
@@ -50,11 +54,18 @@ void Application::processEvents() {
             // End the main loop
             m_running = false;
         }
+        // Pass event to input manager
+        m_inputManager->processEvent(e);
     }
 }
 void Application::shutdown() {
-    if (m_window) {
+    if(m_renderer){
+        m_renderer->shutdown();
+        m_renderer.reset(); // free the unique_ptr
+    }
+    if(m_window){
         m_window->shutdown();
+        m_window.reset(); // free the unique_ptr
     }
 }
 } // namespace Core
