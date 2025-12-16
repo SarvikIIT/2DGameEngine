@@ -24,11 +24,19 @@ bool Window::init() {
         success = false;
     }
     else {
+        //Add the OpenGL flag to the window creation
+        SDL_GL_SetAttribute(SDL_GL_CONTEXT_MAJOR_VERSION, 4);
+        SDL_GL_SetAttribute(SDL_GL_CONTEXT_MINOR_VERSION, 6); // Minor and major version 4.6
+        SDL_GL_SetAttribute(
+            SDL_GL_CONTEXT_PROFILE_MASK,
+            SDL_GL_CONTEXT_PROFILE_CORE
+        ); // Core profile
+        SDL_GL_SetAttribute(SDL_GL_DOUBLEBUFFER, 1); // Use double buffering to improve smoothness
         m_window = SDL_CreateWindow(
             m_title.c_str(),
             m_width,
             m_height,
-            0
+            SDL_WINDOW_OPENGL // Changed the original 0 flag to ask SDL to create an OpenGL context
         );
 
         if (m_window == nullptr) {
@@ -36,7 +44,7 @@ bool Window::init() {
             success = false;
         }
         else {
-            m_screenSurface = SDL_GetWindowSurface(m_window);
+           // m_screenSurface = SDL_GetWindowSurface(m_window); We now use OpenGL for rendering
         }
     }
     return success;
