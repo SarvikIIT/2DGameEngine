@@ -4,7 +4,9 @@
   "version": "1.0.0",
   "dependencies": [
     "sdl3",
-    "glad"
+    "glad",
+    "stb"
   ],
   "builtin-baseline": "594ad8871e1e8e45f8e626c015fd611163430207"
 }
+

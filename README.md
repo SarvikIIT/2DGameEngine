@@ -58,24 +58,23 @@ This engine is designed to showcase:
 **Goal**: Establish solid foundation with clean architecture and basic functionality
 
 #### Week 1: Project Setup & Window Management
-- [ ] CMake build system with proper dependency management
-- [ ] Cross-platform window creation (SDL)
-- [ ] OpenGL context setup and basic rendering
-- [ ] Input handling system (keyboard, mouse)
-- [ ] Basic logging and assertion framework
-- [ ] Git repository structure and .gitignore
+- [x] CMake build system with proper dependency management
+- [x] Cross-platform window creation (SDL3)
+- [x] OpenGL context setup and basic rendering
+- [x] Input handling system (keyboard, mouse)
+- [x] Git repository structure and .gitignore
 
-**Deliverable**: Window opens, clears to color, handles input
+**Deliverable**: Window opens, clears to color, handles input ✅ **COMPLETE**
 
 #### Week 2: Math Library & Primitives
-- [ ] Vector2/3/4 classes with operator overloading
-- [ ] Matrix2x2, 3x3, 4x4 classes
-- [ ] Quaternion for rotations
-- [ ] Geometric primitives (AABB, OBB, Circle, Polygon)
-- [ ] Intersection tests (point-in-shape, shape-shape)
+- [x] Vector2/3/4 classes with operator overloading
+- [x] Matrix2x2, 3x3, 4x4 classes
+- [ ] Quaternion for rotations (Later requires newer Math)
+- [x] Geometric primitives (AABB, Circle)
+- [x] Intersection tests (AABB-AABB, Circle-Circle, AABB-Circle, Line-AABB with Liang-Barsky, Line-Circle)
 - [ ] Unit tests for all math operations
 
-**Deliverable**: Comprehensive math library with test coverage
+**Deliverable**: Comprehensive math library with test coverage ✅ **MOSTLY COMPLETE**
 
 #### Week 3: Entity-Component System (ECS) Core
 - [ ] Entity manager with ID generation
@@ -83,6 +82,7 @@ This engine is designed to showcase:
 - [ ] System base class and update loop
 - [ ] Basic components (Transform, Sprite, RigidBody)
 - [ ] Scene graph management
+- [ ] Basic logging system (optional - for debugging)
 
 **Deliverable**: Can create entities, add components, update systems
 
@@ -93,14 +93,28 @@ This engine is designed to showcase:
 **Goal**: Production-quality rendering with batching and optimization
 
 #### Week 4: Sprite Rendering
-- [ ] Texture loading and management (STB_image)
-- [ ] Sprite renderer with batching
+- [x] Texture loading and management (stb_image)
+- [x] Shader compilation and management (GLSL 330)
+- [x] Sprite class with transform properties
+- [x] SpriteRenderer with VAO/VBO setup
+- [x] Orthographic projection matrix for 2D
+- [x] Matrix transformations (translate, scale, rotate)
+- [x] Sprite batching optimization
 - [ ] Texture atlas generation
-- [ ] Shader compilation and management
-- [ ] Basic material system
 - [ ] Z-ordering and layer management
 
-**Deliverable**: Can render 1000+ sprites efficiently
+**Deliverable**: Can render 1000+ sprites efficiently ✅ **COMPLETE**
+
+**Technical Implementation**:
+- Texture system using stb_image with PNG/JPG/BMP support
+- GLSL shaders with vertex/fragment compilation and linking
+- Row-major matrices with GL_TRUE transpose for OpenGL compatibility
+- VAO/VBO setup for quad rendering with position + UV coordinates
+- Color tinting support via uniform shader variables
+- **Sprite batching system**: beginBatch/submitSprite/endBatch workflow
+- **Dynamic VBO**: GL_DYNAMIC_DRAW for efficient batch updates
+- **Single draw call**: All sprites rendered in one glDrawArrays call
+- **Performance**: 1000 sprites @ 166-168 FPS (single draw call vs 1000 individual calls)
 
 #### Week 5: Camera & Advanced Rendering
 - [ ] 2D camera with viewport transformations
@@ -454,5 +468,4 @@ Portfolio: sarvik.tech
 ---
 
 **Last Updated**: December 2025
-**Status**: Working!
-**Status**: Working!
+**Current Status**: Week 4 COMPLETE! Fully functional sprite rendering system with batching. Successfully rendering 1000 sprites at 166-168 FPS using single draw call optimization.
