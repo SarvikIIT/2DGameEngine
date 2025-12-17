@@ -17,7 +17,22 @@ find_package(OpenGL REQUIRED)
 set(ENGINE_SOURCES
     engine/core/Window.cpp
     engine/core/Application.cpp
+    engine/core/InputManager.cpp
     engine/renderer/Renderer.cpp
+    engine/renderer/Texture.cpp
+    engine/renderer/Shader.cpp
+    engine/renderer/Sprite.cpp
+    engine/renderer/SpriteRenderer.cpp
+    engine/renderer/Camera2D.cpp
+    engine/math/Vector2.cpp
+    engine/math/Vector3.cpp
+    engine/math/Vector4.cpp
+    engine/math/Matrix2x2.cpp
+    engine/math/Matrix3x3.cpp
+    engine/math/Matrix4x4.cpp
+    engine/math/AABB.cpp
+    engine/math/Circle.cpp
+    engine/math/Collision.cpp
 )
 
 # Create executable
@@ -29,6 +44,7 @@ add_executable(GameEngine
 # Include directories (so #include "engine/core/Window.h" works)
 target_include_directories(GameEngine PRIVATE
     ${CMAKE_CURRENT_SOURCE_DIR}
+    ${CMAKE_CURRENT_SOURCE_DIR}/vcpkg/packages/stb_x64-windows/include
 )
 
 # Link libraries

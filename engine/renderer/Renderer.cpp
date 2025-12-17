@@ -31,6 +31,17 @@ namespace Renderer {
             SDL_Log("Renderer::init - GLAD initialized successfully");
             SDL_Log("OpenGL Version: %s", glGetString(GL_VERSION));
             SDL_GL_SetSwapInterval(1); // Enable VSync
+
+            int width, height;
+            SDL_GetWindowSize(window, &width, &height);
+            glViewport(0, 0, width, height);
+
+            glDisable(GL_CULL_FACE);
+            glDisable(GL_DEPTH_TEST);
+
+            glEnable(GL_BLEND);
+            glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
+
             return true;
         }
     }

@@ -1,0 +1,9 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(cmake --build:*)",
+      "Bash(./build/Debug/GameEngine.exe)",
+      "Bash(timeout:*)"
+    ]
+  }
+}
