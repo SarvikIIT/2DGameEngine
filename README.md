@@ -117,14 +117,23 @@ This engine is designed to showcase:
 - **Performance**: 1000 sprites @ 166-168 FPS (single draw call vs 1000 individual calls)
 
 #### Week 5: Camera & Advanced Rendering
-- [ ] 2D camera with viewport transformations
-- [ ] Frustum culling optimization
+- [x] 2D camera with viewport transformations
+- [x] Frustum culling optimization
 - [ ] Particle system with GPU instancing
 - [ ] Debug rendering (shapes, lines, text)
 - [ ] Frame buffer objects for post-processing
 - [ ] Performance profiling of render pipeline
 
-**Deliverable**: Camera controls, culled rendering, visual effects
+**Deliverable**: Camera controls with frustum culling ✅ **COMPLETE**
+
+**Technical Implementation**:
+- Camera2D class with position, zoom, view matrix generation
+- WASD movement controls, Q/E zoom controls
+- View matrix transformation: translate → scale (zoom) → translate (position)
+- Screen-to-world and world-to-screen coordinate conversion
+- Frustum culling: Only renders sprites within camera view bounds
+- Real-time culling statistics: Total/Culled/Rendered sprite counts
+- Performance: Dynamically culls sprites as camera moves, maintaining 165+ FPS
 
 ---
 
@@ -468,4 +477,4 @@ Portfolio: sarvik.tech
 ---
 
 **Last Updated**: December 2025
-**Current Status**: Week 4 COMPLETE! Fully functional sprite rendering system with batching. Successfully rendering 1000 sprites at 166-168 FPS using single draw call optimization.
+**Current Status**: Week 5 COMPLETE! Camera system with frustum culling. Dynamic viewport control with WASD movement and Q/E zoom. Intelligent culling maintains 165+ FPS while only rendering visible sprites.

@@ -33,6 +33,9 @@ set(ENGINE_SOURCES
     engine/math/AABB.cpp
     engine/math/Circle.cpp
     engine/math/Collision.cpp
+    engine/physics/Quadtree.cpp
+    engine/physics/CollisionSystem.cpp
+    engine/physics/PhysicsWorld.cpp
 )
 
 # Create executable
@@ -53,3 +56,23 @@ target_link_libraries(GameEngine PRIVATE
     glad::glad
     OpenGL::GL
 )
+
+# ---- Quadtree smoke test (standalone, no SDL/OpenGL needed) ----
+add_executable(QuadtreeTest
+    tests/quadtree_test.cpp
+    engine/math/Vector2.cpp
+    engine/math/AABB.cpp
+    engine/physics/Quadtree.cpp
+)
+target_include_directories(QuadtreeTest PRIVATE ${CMAKE_CURRENT_SOURCE_DIR})
+
+# ---- Physics ASCII demo (standalone, no SDL/OpenGL needed) ----
+add_executable(PhysicsDemo
+    tests/physics_demo.cpp
+    engine/math/Vector2.cpp
+    engine/math/AABB.cpp
+    engine/physics/Quadtree.cpp
+    engine/physics/CollisionSystem.cpp
+    engine/physics/PhysicsWorld.cpp
+)
+target_include_directories(PhysicsDemo PRIVATE ${CMAKE_CURRENT_SOURCE_DIR})

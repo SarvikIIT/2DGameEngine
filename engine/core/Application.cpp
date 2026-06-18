@@ -57,8 +57,10 @@ bool Application::init() {
 
     SDL_Log("Created %zu sprites for batch testing", m_testSprites.size());
 
+    float gridWidth = spritesPerRow * spacing;
+    float gridHeight = numRows * spacing;
     m_camera = std::make_unique<Renderer::Camera2D>(800.0f, 600.0f);
-    m_camera->setPosition(Math::Vector2(400.0f, 300.0f));
+    m_camera->setPosition(Math::Vector2(gridWidth / 2.0f, gridHeight / 2.0f));
 
     return true;
 }
@@ -85,8 +87,11 @@ void Application::run() {
         if(m_inputManager->isKeyPressed(SDL_SCANCODE_Q)) m_camera->adjustZoom(-0.01f);
         if(m_inputManager->isKeyPressed(SDL_SCANCODE_E)) m_camera->adjustZoom(0.01f);
 
-        // Update camera
+        // Update camera and frustum
         m_spriteRenderer->setView(m_camera->getViewMatrix());
+        float left, top, right, bottom;
+        m_camera->getViewBounds(left, top, right, bottom);
+        m_spriteRenderer->setFrustumBounds(left, top, right, bottom);
 
         m_renderer->beginFrame();
 
@@ -102,7 +107,12 @@ void Application::run() {
         frameCount++;
         Uint64 currentTime = SDL_GetPerformanceCounter();
         if(currentTime - fpsTimer >= perfFreq){
-            SDL_Log("FPS: %d - Rendering %zu sprites", frameCount, m_testSprites.size());
+            SDL_Log("FPS: %d | Total: %zu | Culled: %zu | Rendered: %zu | Frustum: L=%.0f T=%.0f R=%.0f B=%.0f",
+                frameCount,
+                m_spriteRenderer->getTotalSprites(),
+                m_spriteRenderer->getCulledSprites(),
+                m_spriteRenderer->getRenderedSprites(),
+                left, top, right, bottom);
             frameCount = 0;
             fpsTimer = currentTime;
         }
