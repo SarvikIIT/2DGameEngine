@@ -1,5 +1,5 @@
 #include "CollisionSystem.h"
-#include <algorithm>
+#include <functional>
 
 namespace Engine {
 namespace Physics {
