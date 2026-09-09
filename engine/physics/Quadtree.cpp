@@ -45,11 +45,12 @@ namespace Physics {
         node->children[3] = std::make_unique<QuadtreeNode>(Math::AABB(center, max));
     }
 
-    bool Quadtree::insert(const QuadtreeEntity& entity) {
-        if(!m_boundary.intersects(entity.bounds)) return false;
-        insertRecursive(m_root.get(), entity, 0);
-        m_entityCount++;
-        return true;
+bool Quadtree::insert(const QuadtreeEntity& entity) {
+    if(!m_boundary.contains(entity.bounds)) return false;
+    if(!insertRecursive(m_root.get(), entity, 0)) return false;
+    m_entityCount++;
+    return true;
+}
     }
 
     bool Quadtree::insertRecursive(QuadtreeNode *node, const QuadtreeEntity &entity, size_t depth){
