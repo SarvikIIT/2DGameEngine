@@ -18,8 +18,8 @@ namespace Physics {
             for(const auto& candidate : candidates){
                 if(candidate->userData == entity.userData) continue; // skip self
                 if(candidate->bounds.intersects(entity.bounds)){
-                    // To avoid duplicates, only add pairs where candidate < entity (by pointer)
-                    if(candidate->userData < entity.userData){
+                    // To avoid duplicates, impose a strict total order on pointers before comparing.
+                    if (std::less<void*>{}(candidate->userData, entity.userData)) {
                         m_collisions.push_back({candidate->userData, entity.userData});
                     }
                 }
