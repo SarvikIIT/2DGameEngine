@@ -76,3 +76,13 @@ add_executable(PhysicsDemo
     engine/physics/PhysicsWorld.cpp
 )
 target_include_directories(PhysicsDemo PRIVATE ${CMAKE_CURRENT_SOURCE_DIR})
+# ---- Headless benchmark: broad-phase pair counts and step timing ----
+add_executable(Benchmark
+    tests/benchmark.cpp
+    engine/math/Vector2.cpp
+    engine/math/AABB.cpp
+    engine/physics/Quadtree.cpp
+    engine/physics/CollisionSystem.cpp
+    engine/physics/PhysicsWorld.cpp
+)
+target_include_directories(Benchmark PRIVATE ${CMAKE_CURRENT_SOURCE_DIR})
