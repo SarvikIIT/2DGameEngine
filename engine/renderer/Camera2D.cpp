@@ -28,11 +28,13 @@ namespace Renderer {
     Math::Matrix4x4 Camera2D::getViewMatrix() const {
         float centerX = m_viewportWidth / 2.0f;
         float centerY = m_viewportHeight / 2.0f;
-        Math::Matrix4x4 view = Math::Matrix4x4::translate(centerX, centerY, 0.0f) *
-                               Math::Matrix4x4::scale(m_zoom, m_zoom, 1.0f) *
-                               Math::Matrix4x4::translate(-m_position.x, -m_position.y, 0.0f) *
-                               Math::Matrix4x4::translate(-centerX, -centerY, 0.0f);
-        return view;
+
+        // Correct order: Translate world, scale around origin, then translate to screen center
+        Math::Matrix4x4 translation = Math::Matrix4x4::translate(-m_position.x, -m_position.y, 0.0f);
+        Math::Matrix4x4 scale = Math::Matrix4x4::scale(m_zoom, m_zoom, 1.0f);
+        Math::Matrix4x4 toCenter = Math::Matrix4x4::translate(centerX, centerY, 0.0f);
+
+        return toCenter * scale * translation;
     }
     Math::Vector2 Camera2D::screenToWorld(const Math::Vector2& screenPos) const {
         float centerX = m_viewportWidth / 2.0f;
@@ -51,12 +53,12 @@ namespace Renderer {
         return screenPos;
     }
     void Camera2D::getViewBounds(float& left, float& top, float& right, float& bottom) const {
-        float halfWidth = (m_viewportWidth / 2.0f) / m_zoom;
-        float halfHeight = (m_viewportHeight / 2.0f) / m_zoom;
-        left = m_position.x - halfWidth;
-        right = m_position.x + halfWidth;
-        top = m_position.y - halfHeight;
-        bottom = m_position.y + halfHeight;
+        Math::Vector2 topLeft = screenToWorld(Math::Vector2(0.0f, 0.0f));
+        Math::Vector2 bottomRight = screenToWorld(Math::Vector2(m_viewportWidth, m_viewportHeight));
+        left = topLeft.x;
+        top = topLeft.y;
+        right = bottomRight.x;
+        bottom = bottomRight.y;
     }
 
 } // namespace Renderer

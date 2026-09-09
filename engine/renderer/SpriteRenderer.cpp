@@ -6,7 +6,9 @@ namespace Renderer {
 
     // Constructor
     SpriteRenderer::SpriteRenderer()
-    : m_VAO(0), m_VBO(0),m_batching(false)
+    : m_VAO(0), m_VBO(0), m_batching(false), m_frustumCullingEnabled(true),
+      m_frustumLeft(0.0f), m_frustumTop(0.0f), m_frustumRight(0.0f), m_frustumBottom(0.0f),
+      m_totalSprites(0), m_culledSprites(0), m_renderedSprites(0)
     {
         m_batchVertices.reserve(MAX_SPRITES * VERTICES_PER_SPRITE * FLOATS_PER_VERTEX);
         m_batchSprites.reserve(MAX_SPRITES);
@@ -106,29 +108,55 @@ void main(){
         Math::Matrix4x4 viewProjection = m_projection * view;
         m_shader->setMat4("projection", viewProjection.data());
     }
+    void SpriteRenderer::setFrustumBounds(float left, float top, float right, float bottom){
+        m_frustumLeft = left;
+        m_frustumTop = top;
+        m_frustumRight = right;
+        m_frustumBottom = bottom;
+    }
+    bool SpriteRenderer::isInFrustum(const Sprite& sprite) const {
+        if(!m_frustumCullingEnabled) return true;
+
+        float sLeft, sTop, sRight, sBottom;
+        sprite.getBounds(sLeft, sTop, sRight, sBottom);
+
+        if(sRight < m_frustumLeft || sLeft > m_frustumRight) return false;
+        if(sBottom < m_frustumTop || sTop > m_frustumBottom) return false;
+        return true;
+    }
     //Prepare for batching:
     void SpriteRenderer::beginBatch(){
         m_batching = true;
         m_batchVertices.clear();
         m_batchSprites.clear();
+        m_totalSprites = 0;
+        m_culledSprites = 0;
+        m_renderedSprites = 0;
     }
     void SpriteRenderer::submitSprite(const Sprite& sprite){
-        if(!m_batching)return;
+        if(!m_batching) return;
+        m_totalSprites++;
+        if(m_frustumCullingEnabled && !isInFrustum(sprite)){
+            m_culledSprites++;
+            return;
+        }
+
         if(m_batchSprites.size() >= MAX_SPRITES){
             flush();
         }
         m_batchSprites.push_back(&sprite);
     }
     void SpriteRenderer::endBatch(){
-        if(!m_batching)return;
+        if(!m_batching) return;
         flush();
         m_batching = false;
     }
     void SpriteRenderer::flush(){
-        if(m_batchSprites.empty())return;
+        if(m_batchSprites.empty()) return;
+        m_renderedSprites += m_batchSprites.size();
         m_batchVertices.clear();
 
-        for(const Sprite* sprite:m_batchSprites){
+        for(const Sprite* sprite : m_batchSprites){
             Math::Vector2 pos = sprite->getPosition();
             Math::Vector2 size = sprite->getSize();
 
@@ -157,7 +185,7 @@ void main(){
         glBufferData(GL_ARRAY_BUFFER, m_batchVertices.size() * sizeof(float), m_batchVertices.data(), GL_DYNAMIC_DRAW);
 
         glBindVertexArray(m_VAO);
-        glDrawArrays(GL_TRIANGLES,0,m_batchSprites.size() * VERTICES_PER_SPRITE);
+        glDrawArrays(GL_TRIANGLES, 0, m_batchSprites.size() * VERTICES_PER_SPRITE);
         glBindVertexArray(0);
 
         m_batchSprites.clear();

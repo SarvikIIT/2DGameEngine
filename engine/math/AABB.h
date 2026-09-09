@@ -66,11 +66,25 @@ public:
     bool contains(const Vector2& point) const;
 
     /**
+     * @brief Check if this AABB completely contains another AABB
+     * @param other Other AABB to test
+     * @return true if other is completely inside this AABB
+     */
+    bool contains(const AABB& other) const;
+
+    /**
      * @brief Check if this AABB intersects another AABB
      * @param other Other AABB to test
      * @return true if they overlap
      */
     bool intersects(const AABB& other) const;
+
+    /**
+     * @brief Get the closest point on or inside this AABB to a given point
+     * @param point Query point
+     * @return Closest point on the AABB
+     */
+    Vector2 closestPoint(const Vector2& point) const;
 
     /**
      * @brief Expand this AABB to include a point

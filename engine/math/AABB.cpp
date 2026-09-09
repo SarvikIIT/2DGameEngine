@@ -28,6 +28,18 @@ namespace Math {
         return (point.x >= min.x && point.x <= max.x &&
                 point.y >= min.y && point.y <= max.y);
     }
+
+    bool AABB::contains(const AABB& other) const {
+        return (other.min.x >= min.x && other.max.x <= max.x &&
+                other.min.y >= min.y && other.max.y <= max.y);
+    }
+
+    Vector2 AABB::closestPoint(const Vector2& point) const {
+        return Vector2(
+            std::max(min.x, std::min(point.x, max.x)),
+            std::max(min.y, std::min(point.y, max.y))
+        );
+    }
     Vector2 AABB::getHalfExtents() const {
         return Vector2(
             (max.x - min.x) * 0.5f,
