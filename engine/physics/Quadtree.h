@@ -85,8 +85,8 @@ public:
     Quadtree& operator=(const Quadtree&) = delete;
 
     // Allow moving
-    Quadtree(Quadtree&& other) noexcept;
-    Quadtree& operator=(Quadtree&& other) noexcept;
+    Quadtree(Quadtree&& other) noexcept = default;
+    Quadtree& operator=(Quadtree&& other) noexcept = default;
 
     // ===== CORE OPERATIONS =====
 
